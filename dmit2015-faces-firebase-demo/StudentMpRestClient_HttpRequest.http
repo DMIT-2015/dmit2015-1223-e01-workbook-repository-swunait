@@ -1,0 +1,54 @@
+### Create a new document
+POST https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student.json
+Content-Type: application/json
+
+{
+  "firstName": "Tom",
+  "lastName": "Phone"
+}
+
+### Create a new document
+POST https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student.json
+Content-Type: application/json
+
+{
+  "firstName": "Amandeep",
+  "lastName": "Chahal"
+}
+
+### Create a new document
+POST https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student.json
+Content-Type: application/json
+
+{
+  "firstName": "DMIT2015",
+  "lastName": "Student"
+}
+
+
+### GET All documents
+GET https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student.json
+
+### GET One document by key
+GET https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student/-NVHlZTeXMi31si61myc.json
+
+### UPDATE document - will replace all properties with the properties in the request body - if you miss a property it will be removed
+PUT https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student/-NVHlZTeXMi31si61myc.json
+Content-Type: application/json
+
+{
+  "firstName": "Tom",
+  "lastName": "Phong"
+}
+
+### DELETE document - use this if you want to delete a document
+DELETE https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student/-NVHmmGjUH1nVO-hqlJF.json
+
+
+### PATCH document - use this if you want to update some of the properties but not all of them
+PATCH https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/Student/-NVHlZTeXMi31si61myc.json
+Content-Type: application/json
+
+{
+  "firstName": "Tommy"
+}
