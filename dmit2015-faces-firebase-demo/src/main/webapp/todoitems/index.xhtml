@@ -14,11 +14,11 @@
         template="/WEB-INF/faces-templates/layout.xhtml"
 >
 
-    <ui:param name="title" value="Student - List"/>
+    <ui:param name="title" value="TodoItem - List"/>
 
     <ui:define name="maincontent">
 
-        <h1>Student List</h1>
+        <h1>TodoItem List</h1>
 
         <p:messages id="messages"/>
 
@@ -32,20 +32,24 @@
             >
             </p:commandButton>
 
-            <p:dataTable id="dtStudents"
-                         value="#{currentStudentListView.studentMap.entrySet()}"
-                         rendered="#{not empty currentStudentListView.studentMap}"
+            <p:dataTable id="entityTable"
+                         value="#{currentTodoItemListView.todoitemMap.entrySet()}"
+                         rendered="#{not empty currentTodoItemListView.todoitemMap}"
                          var="currentItem"
                          rowKey="#{currentItem.key}"
                          paginator="true" rows="10"
                          paginatorPosition="bottom">
 
-
-                <p:column headerText="First Name">
-                    <h:outputText value="#{currentItem.value.firstName}"/>
+                <p:column headerText="Description">
+                    <h:outputText value="#{currentItem.value.description}"/>
                 </p:column>
-                <p:column headerText="Last Name">
-                    <h:outputText value="#{currentItem.value.lastName}"/>
+                <p:column headerText="Done">
+                    <p:selectBooleanCheckbox value="#{currentItem.value.done}" disabled="true" />
+                </p:column>
+                <p:column headerText="Create Time">
+                    <h:outputText value="#{currentItem.value.createTime}">
+                        <f:convertDateTime type="localDateTime" pattern="MMM d, yyyy - h:mm a" />
+                    </h:outputText>
                 </p:column>
 
 

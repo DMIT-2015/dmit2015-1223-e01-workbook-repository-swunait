@@ -1,0 +1,59 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="TodoItem - Create"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Create TodoItem</h1>
+
+        <p:messages id="messages"/>
+
+        <h:form prependId="false">
+            <p:focus context="panel"/>
+
+            <p:panel id="panel" header="TodoItem Details">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="@next">Description</p:outputLabel>
+                        <p:inputText
+                                id="description"
+                                value="#{currentTodoItemCreateView.newTodoItem.description}">
+                        </p:inputText>
+                    </div>
+
+                </div>
+
+                <p:commandButton
+                        id="createButton"
+                        value="Create"
+                        icon="pi pi-save"
+                        action="#{currentTodoItemCreateView.onCreateNew()}"
+                        update=":messages @form"
+                />
+
+            </p:panel>
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
