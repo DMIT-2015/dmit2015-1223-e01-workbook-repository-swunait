@@ -29,6 +29,9 @@ public class TodoItemDetailsView implements Serializable {
     private TodoItemMpRestClient _todoitemMpRestClient;
 
     @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
+
+    @Inject
     @ManagedProperty("#{param.editId}")
     @Getter
     @Setter
@@ -39,7 +42,9 @@ public class TodoItemDetailsView implements Serializable {
 
     @PostConstruct
     public void init() {
-        existingTodoItem = _todoitemMpRestClient.findById(editId);
+        String token = _firebaseLoginSession.getToken();
+        String userUID = _firebaseLoginSession.getUserUID();
+        existingTodoItem = _todoitemMpRestClient.findById(userUID, editId, token);
         if (existingTodoItem == null) {
             Faces.redirect(Faces.getRequestURI().substring(0, Faces.getRequestURI().lastIndexOf("/")) + "/index.xhtml");
         }

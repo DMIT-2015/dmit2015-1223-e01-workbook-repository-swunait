@@ -17,6 +17,9 @@
     <ui:param name="title" value="TodoItem - List"/>
 
     <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
 
         <h1>TodoItem List</h1>
 

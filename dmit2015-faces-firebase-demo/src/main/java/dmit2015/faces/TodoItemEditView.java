@@ -29,6 +29,9 @@ public class TodoItemEditView implements Serializable {
     private TodoItemMpRestClient _todoitemMpRestClient;
 
     @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
+
+    @Inject
     @ManagedProperty("#{param.editId}")
     @Getter
     @Setter
@@ -41,7 +44,9 @@ public class TodoItemEditView implements Serializable {
     public void init() {
         if (!Faces.isPostback()) {
             if (editId != null) {
-                existingTodoItem = _todoitemMpRestClient.findById(editId);
+                String token = _firebaseLoginSession.getToken();
+                String userUID = _firebaseLoginSession.getUserUID();
+                existingTodoItem = _todoitemMpRestClient.findById(userUID, editId, token);
                 if (existingTodoItem == null) {
                     Faces.redirect(Faces.getRequestURI().substring(0, Faces.getRequestURI().lastIndexOf("/")) + "/index.xhtml");
                 }
@@ -54,7 +59,9 @@ public class TodoItemEditView implements Serializable {
     public String onUpdate() {
         String nextPage = null;
         try {
-            _todoitemMpRestClient.update(editId, existingTodoItem);
+            String token = _firebaseLoginSession.getToken();
+            String userUID = _firebaseLoginSession.getUserUID();
+            _todoitemMpRestClient.update(userUID, editId, existingTodoItem, token);
             Messages.addFlashGlobalInfo("Update was successful.");
             nextPage = "index?faces-redirect=true";
         } catch (Exception e) {

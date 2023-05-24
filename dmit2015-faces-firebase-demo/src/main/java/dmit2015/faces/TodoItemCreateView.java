@@ -22,14 +22,21 @@ public class TodoItemCreateView {
     @RestClient
     private TodoItemMpRestClient _todoitemMpRestClient;
 
+    @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
+
     @Getter
     private TodoItem newTodoItem = new TodoItem();
 
     public String onCreateNew() {
         String nextPage = null;
         try {
+            String token = _firebaseLoginSession.getToken();
+            String userUID = _firebaseLoginSession.getUserUID();
+
             newTodoItem.setCreateTime(LocalDateTime.now());
-            JsonObject responseBody = _todoitemMpRestClient.create(newTodoItem);
+            JsonObject responseBody = _todoitemMpRestClient.create(userUID,newTodoItem,token);
+
             String documentKey = responseBody.getString("name");
             newTodoItem = new TodoItem();
             Messages.addFlashGlobalInfo("Create was successful. {0}", documentKey);
