@@ -45,22 +45,22 @@ public interface StudentMpRestClient {
 
     @POST
     @Path(DOCUMENT_URL + ".json")
-    JsonObject create(Student newStudent);
+    JsonObject create(Student newStudent, @QueryParam("auth") String token);
 
     @GET
     @Path(DOCUMENT_URL + ".json")
-    LinkedHashMap<String, Student> findAll();
+    LinkedHashMap<String, Student> findAll(@QueryParam("auth") String token);
 
     @GET
     @Path(DOCUMENT_URL + "/{key}.json")
-    Student findById(@PathParam("key") String key);
+    Student findById(@PathParam("key") String key, @QueryParam("auth") String token);
 
     @PUT
     @Path(DOCUMENT_URL + "/{key}.json")
-    Student update(@PathParam("key") String key, Student updatedStudent);
+    Student update(@PathParam("key") String key, Student updatedStudent, @QueryParam("auth") String token);
 
     @DELETE
     @Path(DOCUMENT_URL + "/{key}.json")
-    void delete(@PathParam("key") String key);
+    void delete(@PathParam("key") String key, @QueryParam("auth") String token);
 
 }

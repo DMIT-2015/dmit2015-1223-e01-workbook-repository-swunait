@@ -40,8 +40,9 @@ public class TodoItemDeleteView implements Serializable {
 
     @PostConstruct
     public void init() {
-        String token = _firebaseLoginSession.getToken();
-        String userUID = _firebaseLoginSession.getUserUID();
+        String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+        String userUID = _firebaseLoginSession.getFirebaseUser().getLocalId();
+
         existingTodoItem = _todoitemMpRestClient.findById(userUID, editId, token);
         if (existingTodoItem == null) {
             Faces.redirect(Faces.getRequestURI().substring(0, Faces.getRequestURI().lastIndexOf("/")) + "/index.xhtml");
@@ -51,8 +52,9 @@ public class TodoItemDeleteView implements Serializable {
     public String onDelete() {
         String nextPage = "";
         try {
-            String token = _firebaseLoginSession.getToken();
-            String userUID = _firebaseLoginSession.getUserUID();
+            String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+            String userUID = _firebaseLoginSession.getFirebaseUser().getLocalId();
+
             _todoitemMpRestClient.delete(userUID, editId, token);
             Messages.addFlashGlobalInfo("Delete was successful.");
             nextPage = "index?faces-redirect=true";

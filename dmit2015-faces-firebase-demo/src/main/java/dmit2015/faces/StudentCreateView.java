@@ -17,6 +17,9 @@ import jakarta.inject.Named;
 public class StudentCreateView {
 
     @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
+
+    @Inject
     @RestClient
     private StudentMpRestClient _studentMpRestClient;
 
@@ -26,7 +29,8 @@ public class StudentCreateView {
     public String onCreateNew() {
         String nextPage = null;
         try {
-            JsonObject responseBody = _studentMpRestClient.create(newStudent);
+            String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+            JsonObject responseBody = _studentMpRestClient.create(newStudent, token);
             String documentKey = responseBody.getString("name");
             newStudent = new Student();
             Messages.addFlashGlobalInfo("Create was successful. {0}", documentKey);

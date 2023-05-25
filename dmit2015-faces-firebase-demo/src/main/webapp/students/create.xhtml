@@ -17,6 +17,9 @@
     <ui:param name="title" value="Student - Create"/>
 
     <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
 
         <h1>Create Student</h1>
 

@@ -23,6 +23,9 @@ public class StudentDeleteView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
+
+    @Inject
     @RestClient
     private StudentMpRestClient _studentMpRestClient;
 
@@ -37,7 +40,8 @@ public class StudentDeleteView implements Serializable {
 
     @PostConstruct
     public void init() {
-        existingStudent = _studentMpRestClient.findById(editId);
+        String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+        existingStudent = _studentMpRestClient.findById(editId, token);
         if (existingStudent == null) {
             Faces.redirect(Faces.getRequestURI().substring(0, Faces.getRequestURI().lastIndexOf("/")) + "/index.xhtml");
         }
@@ -46,7 +50,8 @@ public class StudentDeleteView implements Serializable {
     public String onDelete() {
         String nextPage = "";
         try {
-            _studentMpRestClient.delete(editId);
+            String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+            _studentMpRestClient.delete(editId, token);
             Messages.addFlashGlobalInfo("Delete was successful.");
             nextPage = "index?faces-redirect=true";
         } catch (Exception e) {

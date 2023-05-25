@@ -31,8 +31,8 @@ public class TodoItemCreateView {
     public String onCreateNew() {
         String nextPage = null;
         try {
-            String token = _firebaseLoginSession.getToken();
-            String userUID = _firebaseLoginSession.getUserUID();
+            String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+            String userUID = _firebaseLoginSession.getFirebaseUser().getLocalId();
 
             newTodoItem.setCreateTime(LocalDateTime.now());
             JsonObject responseBody = _todoitemMpRestClient.create(userUID,newTodoItem,token);

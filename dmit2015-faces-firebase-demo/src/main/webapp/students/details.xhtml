@@ -17,6 +17,9 @@
     <ui:param name="title" value="Student Details"/>
 
     <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewAction action="#{firebaseLoginSession.checkForToken}" />
+        </f:metadata>
 
         <p:panel header="Student Details">
             <p:panelGrid columns="2">

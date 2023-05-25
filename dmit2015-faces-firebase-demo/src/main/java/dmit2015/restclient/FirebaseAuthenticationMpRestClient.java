@@ -50,7 +50,7 @@ public interface FirebaseAuthenticationMpRestClient {
      */
     @POST
     @Path("/accounts:signInWithPassword")
-    JsonObject signIn(@QueryParam("key") String apiKey, JsonObject payload);
+    FirebaseUser signIn(@QueryParam("key") String apiKey, JsonObject payload);
 
     /**
      * Refresh a Fireabse ID token.

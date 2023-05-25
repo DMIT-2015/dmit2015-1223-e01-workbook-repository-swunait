@@ -1,6 +1,7 @@
 package dmit2015.faces;
 
 import dmit2015.restclient.FirebaseAuthenticationMpRestClient;
+import dmit2015.restclient.FirebaseUser;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -37,10 +38,10 @@ public class FirebaseLogin implements Serializable {
     private String password;
 
     @Inject
-    private FirebaseLoginSession _loginSession;
+    private FirebaseLoginSession _firebaseLoginSession;
 
     @Inject
-    @ConfigProperty(name = "FIREBASE_WEBAPIKEY")
+    @ConfigProperty(name = "firebase.webapikey")
     private String firebaserestapiKey;
 
     @Param
@@ -55,16 +56,14 @@ public class FirebaseLogin implements Serializable {
                 .add("returnSecureToken", true)
                 .build();
         try {
-            JsonObject responsePayload = _loginService.signIn(firebaserestapiKey, credentials);
-            String token = responsePayload.getString("idToken");
-            String userUID = responsePayload.getString("localId");
-            _loginSession.setToken(token);
-            _loginSession.setUsername(username);
-            _loginSession.setUserUID(userUID);
+            FirebaseUser loginFirebaseUser = _loginService.signIn(firebaserestapiKey, credentials);
+            _firebaseLoginSession.setFirebaseUser(loginFirebaseUser);
+            _firebaseLoginSession.setUsername(username);
+
             if (requestURI != null && !requestURI.isBlank()) {
                 nextPage = requestURI + "?faces-redirect=true";
             } else {
-                nextPage = "/index?faces-redirect=true";
+                nextPage = "/todoitems/index?faces-redirect=true";
             }
 
         } catch (Exception e) {

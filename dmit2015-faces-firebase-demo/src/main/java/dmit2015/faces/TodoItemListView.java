@@ -35,8 +35,8 @@ public class TodoItemListView implements Serializable {
     @PostConstruct  // After @Inject is complete
     public void init() {
         try {
-            String token = _firebaseLoginSession.getToken();
-            String userUID = _firebaseLoginSession.getUserUID();
+            String token = _firebaseLoginSession.getFirebaseUser().getIdToken();
+            String userUID = _firebaseLoginSession.getFirebaseUser().getLocalId();
             todoitemMap = _todoitemMpRestClient.findAll(userUID, token);
         } catch (Exception ex) {
             Messages.addGlobalError(ex.getMessage());
