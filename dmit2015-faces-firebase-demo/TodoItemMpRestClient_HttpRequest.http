@@ -1,0 +1,9 @@
+### Create a new document
+POST https://dmit2015-1223-swu-demos-default-rtdb.firebaseio.com/TodoItem/{{localId}}.json?auth={{idToken}}
+Content-Type: application/json
+
+{
+  "description": "Demo HTTP Request",
+  "done": false,
+  "createTime": "2023-05-26 9:07pm"
+}
