@@ -54,6 +54,8 @@ import java.util.LinkedHashMap;
 }
 </code>
  *
+ * @author  Sam Wu
+ * @version 2023.05.22
  */
 @RequestScoped
 @RegisterRestClient
