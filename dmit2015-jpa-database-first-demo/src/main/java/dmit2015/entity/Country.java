@@ -2,6 +2,7 @@ package dmit2015.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.math.BigInteger;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Table(name = "COUNTRIES", schema = "HR", catalog = "")
 public class Country {
 
+    @Pattern(regexp = "^[a-zA-Z]{2}$")
     @Id
     @Column(name = "COUNTRY_ID")
     private String countryId;
