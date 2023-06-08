@@ -48,8 +48,10 @@ public class CountryCreateView {
     public String onCreateNew() {
         String nextPage = "";
         try {
-            Region selectedRegion = _regionRepository.findById(selectedRegionId).orElseThrow();
-            newCountry.setRegionsByRegionId(selectedRegion);
+            if (selectedRegionId != null) {
+                Region selectedRegion = _regionRepository.findById(selectedRegionId).orElseThrow();
+                newCountry.setRegionsByRegionId(selectedRegion);
+            }
 
             _countryRepository.add(newCountry);
             Messages.addFlashGlobalInfo("Create was successful. {0}", newCountry.getCountryId());
