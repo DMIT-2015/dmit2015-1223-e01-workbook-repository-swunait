@@ -16,8 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.*;;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -56,129 +55,193 @@ public class TodoSeleniumIT {
 
     private void setValue(String id, String value) {
         WebElement element = driver.findElement(By.id(id));
-        element.clear();
-        element.sendKeys(value);
-    }
-
-    private void setDateValue(String id, String value) {
-        WebElement element = driver.findElement(By.id(id));
         element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         element.sendKeys(Keys.chord(Keys.BACK_SPACE));
         element.clear();
         element.sendKeys(value);
-        element.sendKeys(Keys.chord(Keys.TAB));
+    }
+
+    @Order(1)
+    @ParameterizedTest
+    @CsvSource(value = {
+            "description, Demo Functional UI Web Testing with Selenium Web Driver",
+    })
+    void shouldCreate(String field1Id, String field1Value) {
+        driver.get("http://localhost:8080/todos/create.xhtml");
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Create");
+
+        // Set the value for each form field
+        setValue(field1Id, field1Value);
+//        setValue(field2Id, field2Value);
+//        setValue(field3Id, field3Value);
+
+        // Maximize the browser window so we can see the data being inputted
+        driver.manage().window().maximize();
+        // Find the create button and click on it
+        driver.findElement(By.id("createButton")).click();
+
+        // Wait for 3 seconds and verify navigate has been redirected to the listing page
+        var wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        var facesMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
+        // Verify the title of the page
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+        // Verify the feedback message is displayed in the page
+        String feedbackMessage = facesMessages.getText();
+        assertThat(feedbackMessage)
+                .containsIgnoringCase("Create was successful.");
+        // The primary key of the entity is at the end of the feedback message after the period
+        final int indexOfPrimaryKeyValue = feedbackMessage.indexOf(".") + 2;
+        // Extract the primary key for re-use if we need to edit or delete the entity
+        sharedEditId = Long.parseLong(feedbackMessage.substring(indexOfPrimaryKeyValue));
+    }
+
+    @Order(2)
+    @ParameterizedTest
+    @CsvSource({
+            "Demo Functional UI Web Testing with Selenium Web Driver,false"
+    })
+    void shouldList(String expectedLastRowColumnDescription, String expectedLastRowColumnCompleted) {
+        // Open a browser and navigate to the page to list entities
+        driver.get("http://localhost:8080/todos/index.xhtml");
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+
+        // Check the number of rows in the entity listing table
+        int lastRow = (driver.findElements(By.xpath("//table[@role='grid']/tbody/tr")).size());
+
+        // Define the XPATH for locating the each column of the last row
+//        final String lastRowFirstColumnXpathExpression = String.format("//table[@role='grid']/tbody/tr[%d]/td[1]", lastRow);
+        final String lastRowSecondColumnColumnXpathExpression = String.format("//table[@role='grid']/tbody/tr[%d]/td[2]", lastRow);
+        final String lastThirdColumnColumnXpathExpression = String.format("//table[@role='grid']/tbody/tr[%d]/td[3]", lastRow);
+        // Get the text for each column in the last row
+//        final String lastRowColumn1 = driver.findElement(By.xpath(lastRowFirstColumnXpathExpression)).getText();
+        final String lastRowColumn2 = driver.findElement(By.xpath(lastRowSecondColumnColumnXpathExpression)).getText();
+        final String lastRowColumn3 = driver.findElement(By.xpath(lastThirdColumnColumnXpathExpression)).getText();
+
+        // Verify each column of the last row
+//        assertThat(lastRowColumn1)
+//                .isEqualToIgnoringCase(expectedLastRowColumn1);
+        assertThat(lastRowColumn2)
+                .isEqualToIgnoringCase(expectedLastRowColumnDescription);
+        assertThat(lastRowColumn3)
+                .isEqualToIgnoringCase(expectedLastRowColumnCompleted);
+
+        // Verify that clicking on the edit link navigates to the Edit page
+        driver.findElements(By.xpath("//a[contains(@id,'editLink')]")).get(0).click();
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Edit");
+        // Navigate back to the listing page
+        driver.navigate().back();
+
+        // Verify that clicking on the details link navigates to the Details page
+        driver.findElements(By.xpath("//a[contains(@id,'detailsLink')]")).get(0).click();
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Details");
+        // Navigate back to the listing page
+        driver.navigate().back();
+
+        // Verify that clicking on the details link navigates to the Delete page
+        driver.findElements(By.xpath("//a[contains(@id,'deleteLink')]")).get(0).click();
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Delete");
+        // Navigate back to the listing page
+        driver.navigate().back();
     }
 
     @Order(3)
     @ParameterizedTest
-    @CsvSource(value = {
-            "Create first Functional UI test data",
-            "Create second Functional UI test data"
+    @CsvSource({
+            "description,Demo Functional UI Web Testing with Selenium Web Driver,completed,false",
     })
-    void shouldCreate(String description) {
-        driver.get("http://localhost:8080/todos/create.xhtml");
+    void shouldDetails(String field1Id, String field1Value, String field2Id, String field2Value) {
+        // Open a browser and navigate to the page to list entities
+        driver.get("http://localhost:8080/todos/index.xhtml");
         assertThat(driver.getTitle())
-            .isEqualToIgnoringCase("Todo - Create");
+                .isEqualToIgnoringCase("Todo - List");
 
-        setValue("description", description);
-
-        driver.manage().window().maximize();
-        driver.findElement(By.id("createButton")).click();
-
-        var wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        var facesMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
+        int tableRowCount = (driver.findElements(By.xpath("//table[@role='grid']/tbody/tr")).size());
+        int lastRowIndex = tableRowCount - 1;
+        driver.findElements(By.xpath("//a[contains(@id,'detailsLink')]")).get(lastRowIndex).click();
         assertThat(driver.getTitle())
-            .isEqualTo("Todo - List");
-        String feedbackMessage = facesMessages.getText();
+                .isEqualToIgnoringCase("Todo - Details");
 
-        assertThat(feedbackMessage)
-                .containsIgnoringCase("Create was successful.");
-        final int indexOfPrimaryKeyValue = feedbackMessage.indexOf(".") + 2;
-        sharedEditId = Long.parseLong(feedbackMessage.substring(indexOfPrimaryKeyValue));
+        var actualField1Value = driver.findElement(By.id(field1Id)).getText();
+        var actualField2Value = driver.findElement(By.id(field2Id)).getText();
+//        var actualField3Value = driver.findElement(By.id("field3Id")).getText();
+        assertThat(actualField1Value)
+                .isEqualToIgnoringCase(field1Value);
+        assertThat(actualField2Value)
+                .isEqualToIgnoringCase(field2Value);
+//        assertThat(actualField3Value)
+//                .isEqualToIgnoringCase(field3);
+
     }
 
-//    @Order(1)
-//    @Test
-//    void shouldList() {
-//        driver.get("http://localhost:8080/todos/index.xhtml");
-//        assertEquals("Todo - List", driver.getTitle());
-//
-//        // TODO: Compare the column values in the first row of the data table
-//        String firstRowColumn1 = driver.findElement(By.xpath("//table[@role='grid']/tbody/tr[1]/td[1]")).getText();
-//        String firstRowColumn2 = driver.findElement(By.xpath("//table[@role='grid']/tbody/tr[1]/td[2]")).getText();
-//        assertEquals("Expected value for row 1 column 1", firstRowColumn1);
-//        assertEquals("Expected value for row 1 column 2", firstRowColumn2);
-//        // TODO: Compare the column values in the last row of the data table. You will need to change the row number of the last row
-//        String lastRowColumn1 = driver.findElement(By.xpath("//table[@role='grid']/tbody/tr[4]/td[1]")).getText();
-//        String lastRowColumn2 = driver.findElement(By.xpath("//table[@role='grid']/tbody/tr[4]/td[2]")).getText();
-//        assertEquals("Expected value for last row column 1", lastRowColumn1);
-//        assertEquals("Expected value for last row column 2", lastRowColumn2);
-//
-//        driver.findElements(By.xpath("//a[contains(@id,'editLink')]")).get(0).click();
-//        assertEquals("Todo - Edit", driver.getTitle());
-//        driver.navigate().back();
-//
-//        driver.findElements(By.xpath("//a[contains(@id,'detailsLink')]")).get(0).click();
-//        assertEquals("Todo - Details", driver.getTitle());
-//        driver.navigate().back();
-//
-//        driver.findElements(By.xpath("//a[contains(@id,'deleteLink')]")).get(0).click();
-//        assertEquals("Todo - Delete", driver.getTitle());
-//        driver.navigate().back();
-//    }
-//
-//    @Order(4)
-//    @Test
-//    void shouldEdit() {
-//        driver.get("http://localhost:8080/todos/edit.xhtml?editId=" + sharedEditId);
-//        assertEquals("Todo - Edit", driver.getTitle());
-//
-//        // TODO: Set the form field values that you want to change
-//        setValue("field1Id", "Field 1 Value");
-//        setValue("field2Id", "Field 2 Value");
-//
-//        driver.manage().window().maximize();
-//        driver.findElement(By.id("updateButton")).click();
-//
-//        var wait = new WebDriverWait(driver, Duration.ofSeconds(11));
-//        var facesMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
-//        assertEquals("Movie - List", driver.getTitle());
-//        assertThat(facesMessages.getText(), containsString("Update was successful."));
-//    }
-//
-//    @Order(2)
-//    @Test
-//    void shouldDetails() {
-//        // TODO: change the editId value to a valid entity
-//        Long primaryKeyValue = 2;
-//        driver.get("http://localhost:8080/todos/details.xhtml?editId=" + primaryKeyValue);
-//        assertEquals("Todo - Details", driver.getTitle());
-//
-//        // TODO: change the form field names and values you are expecting
-//        var actualField1Value = driver.findElement(By.id("field1Id")).getText();
-//        var actualField2Value = driver.findElement(By.id("field2Id")).getText();
-//        assertEquals("Expected field 1 value", actualField1Value);
-//        assertEquals("Expected field 2 value", actualField1Value);
-//
-//    }
-//
-//    @Order(5)
-//    @Test
-//    void shouldDelete() {
-//        driver.get("http://localhost:8080/todos/delete.xhtml?editId=" + sharedEditId);
-//        assertEquals("Todo - Delete", driver.getTitle());
-//
-//        driver.findElement(By.id("deleteButton")).click();
-//
-//        var wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-//
-//        var yesConfirmationButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-confirmdialog-yes")));
-//        yesConfirmationButton.click();
-//
-//        wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-//        var facesMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
-//        assertEquals("Todo - List", driver.getTitle());
-//        assertThat(facesMessages.getText(), containsString("Delete was successful."));
-//    }
+    @Order(4)
+    @ParameterizedTest
+    @CsvSource({
+            "description, Finished Selenium Web Driver demo, completed, true",
+    })
+    void shouldEdit(String field1Id, String field1Value, String field2Id, String field2Value) {
+        // Open a browser and navigate to the page to list entities
+        driver.get("http://localhost:8080/todos/index.xhtml");
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+
+        int tableRowCount = (driver.findElements(By.xpath("//table[@role='grid']/tbody/tr")).size());
+        int lastRowIndex = tableRowCount - 1;
+
+        driver.findElements(By.xpath("//a[contains(@id,'editLink')]")).get(lastRowIndex).click();
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Edit");
+
+        // Set the value for each form field
+        setValue(field1Id, field1Value);
+        setValue(field2Id, field2Value);
+//        setValue(field3Id, field3Value);
+
+        driver.manage().window().maximize();
+        driver.findElement(By.id("updateButton")).click();
+
+        var wait = new WebDriverWait(driver, Duration.ofSeconds(11));
+        var feedbackMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+        assertThat(feedbackMessages.getText())
+                .containsIgnoringCase("Update was successful.");
+    }
+
+
+    @Order(5)
+    @Test
+    void shouldDelete() {
+        // Open a browser and navigate to the page to list entities
+        driver.get("http://localhost:8080/todos/index.xhtml");
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+
+        int tableRowCount = (driver.findElements(By.xpath("//table[@role='grid']/tbody/tr")).size());
+        int lastRowIndex = tableRowCount - 1;
+
+        driver.findElements(By.xpath("//a[contains(@id,'deleteLink')]")).get(lastRowIndex).click();
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - Delete");
+
+        driver.findElement(By.id("deleteButton")).click();
+
+        var wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+
+        var yesConfirmationButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-confirmdialog-yes")));
+        yesConfirmationButton.click();
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        var feedbackMessages = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ui-messages-info-summary")));
+        assertThat(driver.getTitle())
+                .isEqualToIgnoringCase("Todo - List");
+        assertThat(feedbackMessages.getText())
+                .containsIgnoringCase("Delete was successful.");
+    }
 
 }
