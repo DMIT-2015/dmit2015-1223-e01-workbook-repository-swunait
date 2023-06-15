@@ -6,20 +6,20 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @DataSourceDefinitions({
 
-//        @DataSourceDefinition(
-//                name = "java:app/datasources/h2databaseDS",
-//                className = "org.h2.jdbcx.JdbcDataSource",
-//                // url="jdbc:h2:file:~/jdk/databases/h2/DMIT2015_1223_CourseDB;MODE=LEGACY;",
-//                url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=LEGACY;",
-//                user = "user2015",
-//                password = "Password2015"),
+        @DataSourceDefinition(
+                name = "java:app/datasources/h2databaseDS",
+                className = "org.h2.jdbcx.JdbcDataSource",
+                url="jdbc:h2:file:~/jdk/databases/h2/DMIT2015_1223_CourseDB;MODE=LEGACY;",
+                //url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=LEGACY;",
+                user = "user2015",
+                password = "Password2015"),
 
-	@DataSourceDefinition(
-		name="java:app/datasources/LocalMssqlDMIT2015DS",
-		className="com.microsoft.sqlserver.jdbc.SQLServerDataSource",
-		url="jdbc:sqlserver://localhost;databaseName=DMIT2015_1223_CourseDB;TrustServerCertificate=true",
-		user="user2015",
-		password="Password2015"),
+//	@DataSourceDefinition(
+//		name="java:app/datasources/LocalMssqlDMIT2015DS",
+//		className="com.microsoft.sqlserver.jdbc.SQLServerDataSource",
+//		url="jdbc:sqlserver://localhost;databaseName=DMIT2015_1223_CourseDB;TrustServerCertificate=true",
+//		user="user2015",
+//		password="Password2015"),
 //
 //	@DataSourceDefinition(
 //		name="java:app/datasources/RemoteMssqlDMIT2015DS",
