@@ -25,7 +25,7 @@
             <properties>
                 <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
                 <!-- database.action: drop-and-create, create, update, none -->
-                <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+                <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             </properties>
         </persistence-unit>
 

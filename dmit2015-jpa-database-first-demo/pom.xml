@@ -181,6 +181,7 @@
                         -->
                         <arg>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</arg>
                     </jvmArguments>
+                    <timeout>180</timeout>
                 </configuration>
                 <executions>
                     <execution>

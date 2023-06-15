@@ -182,9 +182,9 @@ public class TodoSeleniumIT {
     @Order(4)
     @ParameterizedTest
     @CsvSource({
-            "description, Finished Selenium Web Driver demo, completed, true",
+            "description, Finished Selenium Web Driver demo, completed, false",
     })
-    void shouldEdit(String field1Id, String field1Value, String field2Id, String field2Value) {
+    void shouldEdit(String descriptionId, String description, String completedId, boolean completed) {
         // Open a browser and navigate to the page to list entities
         driver.get("http://localhost:8080/todos/index.xhtml");
         assertThat(driver.getTitle())
@@ -198,9 +198,14 @@ public class TodoSeleniumIT {
                 .isEqualToIgnoringCase("Todo - Edit");
 
         // Set the value for each form field
-        setValue(field1Id, field1Value);
-        setValue(field2Id, field2Value);
-//        setValue(field3Id, field3Value);
+        setValue(descriptionId, description);
+        var completedCheckbox = driver.findElement(By.id(completedId));
+        if ((completedCheckbox.isSelected() && completed == false)
+                ||
+                (completedCheckbox.isSelected() == false && completed == true)
+        ) {
+            driver.findElement(By.id(completedId)).click();
+        }
 
         driver.manage().window().maximize();
         driver.findElement(By.id("updateButton")).click();
