@@ -230,7 +230,17 @@
                         <!-- https://docs.wildfly.org/28/Bootable_Guide.html#wildfly_layers -->
                         <layer>cloud-server</layer> <!-- includes ee-security -->
                         <layer>jsf</layer>
+                        <layer>undertow-https</layer>
                     </layers>
+                    <cli-sessions>
+                        <cli-session>
+                            <script-files>
+                                <script>/home/user2015/jdk/server/wildfly-scripts/enable-oneway-https.cli</script>
+                                <script>/home/user2015/jdk/server/wildfly-scripts/configure-elytron.cli</script>
+                            </script-files>
+                        </cli-session>
+                    </cli-sessions>
+
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
                     </excluded-layers>

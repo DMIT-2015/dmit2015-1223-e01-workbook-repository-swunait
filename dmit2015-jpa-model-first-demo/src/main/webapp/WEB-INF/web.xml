@@ -8,4 +8,52 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <security-constraint>
+        <display-name>Use HTTPS only</display-name>
+        <web-resource-collection>
+            <web-resource-name>sslResources</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>SalesResources</web-resource-name>
+            <url-pattern>/movies/create.xhtml</url-pattern>
+            <url-pattern>/movies/edit.xhtml</url-pattern>
+            <url-pattern>/movies/delete.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Sales</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <role-name>Sales</role-name>
+    </security-role>
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/errorpages/401.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errorpages/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorpages/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorpages/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
+        <location>/errorpages/expired.xhtml</location>
+    </error-page>
+
 </web-app>
