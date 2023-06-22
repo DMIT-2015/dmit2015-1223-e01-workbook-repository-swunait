@@ -44,11 +44,18 @@
             <p:menubar>
                 <p:menuitem value="Home" icon="pi pi-home" url="#{request.contextPath}/index.xhtml"/>
 
-                <p:submenu label="Movies" icon="pi pi-file">
+                <p:submenu label="EE Movies" icon="pi pi-file">
                     <p:menuitem value="List" icon="pi pi-list"
                                 url="#{request.contextPath}/movies/index.xhtml"/>
                     <p:menuitem value="Create" icon="pi pi-plus"
                                 url="#{request.contextPath}/movies/create.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Shiro Movies" icon="pi pi-file">
+                    <p:menuitem value="List" icon="pi pi-list"
+                                url="#{request.contextPath}/shiro/movies/index.xhtml"/>
+                    <p:menuitem value="Create" icon="pi pi-plus"
+                                url="#{request.contextPath}/shiro/movies/create.xhtml"/>
                 </p:submenu>
 
                 <p:submenu label="Todo" icon="pi pi-file">
