@@ -19,17 +19,17 @@
         </user-data-constraint>
     </security-constraint>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>SalesResources</web-resource-name>
-            <url-pattern>/movies/create.xhtml</url-pattern>
-            <url-pattern>/movies/edit.xhtml</url-pattern>
-            <url-pattern>/movies/delete.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Sales</role-name>
-        </auth-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>SalesResources</web-resource-name>-->
+<!--            <url-pattern>/movies/create.xhtml</url-pattern>-->
+<!--            <url-pattern>/movies/edit.xhtml</url-pattern>-->
+<!--            <url-pattern>/movies/delete.xhtml</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>Sales</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
 
     <security-role>
         <role-name>Sales</role-name>
@@ -54,6 +54,10 @@
     <error-page>
         <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
         <location>/errorpages/expired.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>org.apache.shiro.authz.UnauthenticatedException</exception-type>
+        <location>/shiroLogin.xhtml</location>
     </error-page>
 
 </web-app>

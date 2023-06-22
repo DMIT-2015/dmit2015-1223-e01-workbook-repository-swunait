@@ -5,6 +5,7 @@ import dmit2015.persistence.MovieRepository;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Named("currentMovieDeleteView")
 @ViewScoped
+@RequiresRoles("IT")
 public class MovieDeleteView implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
