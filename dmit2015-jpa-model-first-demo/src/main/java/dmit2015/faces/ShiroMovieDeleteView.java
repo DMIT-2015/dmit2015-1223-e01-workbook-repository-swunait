@@ -17,10 +17,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Optional;
 
-@Named("currentMovieDeleteView")
+@Named("currentShiroMovieDeleteView")
 @ViewScoped
-@RolesAllowed({"IT"})
-public class MovieDeleteView implements Serializable {
+@RolesAllowed({"Sales","IT"})
+public class ShiroMovieDeleteView implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

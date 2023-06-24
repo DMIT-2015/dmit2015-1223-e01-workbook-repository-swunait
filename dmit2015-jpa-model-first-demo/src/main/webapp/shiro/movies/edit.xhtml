@@ -30,7 +30,7 @@
                         <label for="entityId">ID</label>
                         <p:inputText id="entityId"
                                      label="MovieID"
-                                     value="#{currentMovieEditView.editId}"
+                                     value="#{currentShiroMovieEditView.editId}"
                                      readonly="true">
                         </p:inputText>
                     </div>
@@ -40,7 +40,7 @@
                         <p:outputLabel for="@next">title</p:outputLabel>
                         <p:inputText
                                 id="title"
-                                value="#{currentMovieEditView.existingMovie.title}">
+                                value="#{currentShiroMovieEditView.existingMovie.title}">
                         </p:inputText>
                     </div>
 
@@ -48,7 +48,7 @@
                         <p:outputLabel for="@next">releaseDate</p:outputLabel>
                         <p:inputText
                                 id="releaseDate"
-                                value="#{currentMovieEditView.existingMovie.releaseDate}">
+                                value="#{currentShiroMovieEditView.existingMovie.releaseDate}">
                             <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
                         </p:inputText>
                     </div>
@@ -57,7 +57,7 @@
                         <p:outputLabel for="@next">price</p:outputLabel>
                         <p:inputText
                                 id="price"
-                                value="#{currentMovieEditView.existingMovie.price}">
+                                value="#{currentShiroMovieEditView.existingMovie.price}">
                         </p:inputText>
                     </div>
 
@@ -65,7 +65,7 @@
                         <p:outputLabel for="@next">genre</p:outputLabel>
                         <p:inputText
                                 id="genre"
-                                value="#{currentMovieEditView.existingMovie.genre}">
+                                value="#{currentShiroMovieEditView.existingMovie.genre}">
                         </p:inputText>
                     </div>
 
@@ -73,7 +73,7 @@
                         <p:outputLabel for="@next">rating</p:outputLabel>
                         <p:inputText
                                 id="rating"
-                                value="#{currentMovieEditView.existingMovie.rating}">
+                                value="#{currentShiroMovieEditView.existingMovie.rating}">
                         </p:inputText>
                     </div>
 
@@ -84,7 +84,7 @@
                         id="updateButton"
                         value="Save"
                         icon="pi pi-save"
-                        action="#{currentMovieEditView.onUpdate()}"
+                        action="#{currentShiroMovieEditView.onUpdate()}"
                         update=":messages @form"/>
 
 

@@ -12,6 +12,7 @@
         xmlns:o="http://omnifaces.org/ui"
         xmlns:of="http://omnifaces.org/functions"
         xmlns:p="http://primefaces.org/ui"
+        xmlns:shiro="http://shiro.apache.org/tags"
 >
 <h:head>
     <meta charset="utf-8"/>
@@ -73,6 +74,19 @@
                 <c:if test="${empty request.userPrincipal}">
                     <p:menuitem value="Login" action="/customLogin" />
                 </c:if>
+
+                <shiro:guest>
+                    <p:menuitem value="Shiro Login" url="/shiroLogin.xhtml" />
+                </shiro:guest>
+
+                <shiro:user>
+                    <p:menuitem
+                            url="/shiro/auth/logout"
+                    >
+                        Shiro Logout <shiro:principal /> #{request.userPrincipal.name}
+                    </p:menuitem>
+                </shiro:user>
+
 
             </p:menubar>
         </h:form>

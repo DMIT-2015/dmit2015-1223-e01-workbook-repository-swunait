@@ -31,7 +31,7 @@
                         <p:outputLabel for="@next">title</p:outputLabel>
                         <p:inputText
                                 id="title"
-                                value="#{currentMovieCreateView.newMovie.title}">
+                                value="#{currentShiroMovieCreateView.newMovie.title}">
                         </p:inputText>
                     </div>
 
@@ -39,7 +39,7 @@
                         <p:outputLabel for="@next">releaseDate</p:outputLabel>
                         <p:datePicker
                                 id="releaseDate"
-                                value="#{currentMovieCreateView.newMovie.releaseDate}">
+                                value="#{currentShiroMovieCreateView.newMovie.releaseDate}">
                             <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
                         </p:datePicker>
                     </div>
@@ -48,7 +48,7 @@
                         <p:outputLabel for="@next">price</p:outputLabel>
                         <p:inputText
                                 id="price"
-                                value="#{currentMovieCreateView.newMovie.price}">
+                                value="#{currentShiroMovieCreateView.newMovie.price}">
                         </p:inputText>
                     </div>
 
@@ -56,7 +56,7 @@
                         <p:outputLabel for="@next">genre</p:outputLabel>
                         <p:inputText
                                 id="genre"
-                                value="#{currentMovieCreateView.newMovie.genre}">
+                                value="#{currentShiroMovieCreateView.newMovie.genre}">
                         </p:inputText>
                     </div>
 
@@ -64,7 +64,7 @@
                         <p:outputLabel for="@next">rating</p:outputLabel>
                         <p:inputText
                                 id="rating"
-                                value="#{currentMovieCreateView.newMovie.rating}">
+                                value="#{currentShiroMovieCreateView.newMovie.rating}">
                         </p:inputText>
                     </div>
 
@@ -74,7 +74,7 @@
                         id="createButton"
                         value="Create"
                         icon="pi pi-save"
-                        action="#{currentMovieCreateView.onCreateNew()}"
+                        action="#{currentShiroMovieCreateView.onCreateNew()}"
                         update=":messages @form"
                 />
 

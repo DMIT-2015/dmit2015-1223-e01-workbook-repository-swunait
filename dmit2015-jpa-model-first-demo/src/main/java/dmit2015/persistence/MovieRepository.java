@@ -5,8 +5,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.security.enterprise.SecurityContext;
 import jakarta.transaction.Transactional;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,18 @@ public class MovieRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @Inject
-    private SecurityContext _securityContext;
+//    @Inject
+//    private SecurityContext _securityContext;
 
+    @Inject
+    private Subject _subject;
+
+    @RequiresRoles("Sales")
     @Transactional
     public void add(Movie newMovie) {
+        final String username = (String) _subject.getPrincipal();
+        newMovie.setUsername(username);
+
         em.persist(newMovie);
     }
 
@@ -39,10 +47,20 @@ public class MovieRepository {
     }
 
     public List<Movie> findAll() {
-        return em.createQuery("SELECT o FROM Movie o ", Movie.class)
-                .getResultList();
+        // Return all movies if user is unauthenticated or has the IT Role
+        if ( !_subject.isAuthenticated() || _subject.hasRole("IT")) {
+            return em.createQuery("SELECT o FROM Movie o ", Movie.class)
+                    .getResultList();
+        } else { // Return movies created by the current user
+            String username = (String) _subject.getPrincipal();
+            return em.createQuery("SELECT o FROM Movie o where o.username = :usernameParam "
+                            , Movie.class)
+                    .setParameter("usernameParam", username)
+                    .getResultList();
+        }
     }
 
+    @RequiresRoles("Sales")
     @Transactional
     public Movie update(Long id, Movie updatedMovie) {
         Movie existingMovie = null;
@@ -63,6 +81,7 @@ public class MovieRepository {
         return existingMovie;
     }
 
+    @RequiresRoles({"Sales"})
     @Transactional
     public void delete(Movie existingMovie) {
         if (em.contains(existingMovie)) {
@@ -72,6 +91,7 @@ public class MovieRepository {
         }
     }
 
+    @RequiresRoles("Sales")
     @Transactional
     public void deleteById(Long movieId) {
         Optional<Movie> optionalMovie = findById(movieId);

@@ -30,9 +30,21 @@
             >
             </p:commandButton>
 
+            <p:commandButton value="Import Data"
+                             icon="pi pi-file-import"
+                             action="#{currentMovieListView.onImportData()}"
+                             update=":messages moviesTable"
+            >
+            </p:commandButton>
+
             <p:dataTable id="moviesTables"
                          value="#{currentMovieListView.movieList}"
                          var="currentItem">
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{currentItem.username}">
+                    </h:outputText>
+                </p:column>
 
                 <p:column headerText="Title">
                     <h:outputText value="#{currentItem.title}">
