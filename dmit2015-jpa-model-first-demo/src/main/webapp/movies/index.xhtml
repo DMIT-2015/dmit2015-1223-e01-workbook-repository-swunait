@@ -17,6 +17,11 @@
     <ui:param name="title" value="Movie - List"/>
 
     <ui:define name="maincontent">
+        <!--Invoke init() from Faces page -->
+        <f:metadata>
+            <f:viewParam name="dummy" />
+            <f:event type="postInvokeAction" listener="#{currentMovieListView.init()}" />
+        </f:metadata>
 
         <h1>Movie List</h1>
 
@@ -33,8 +38,8 @@
             <p:commandButton value="Import Data"
                              icon="pi pi-file-import"
                              action="#{currentMovieListView.onImportData()}"
-                             update=":messages moviesTable"
-            >
+                             update=":messages moviesTables"
+                             >
             </p:commandButton>
 
             <p:dataTable id="moviesTables"
@@ -110,6 +115,20 @@
                 </p:column>
 
             </p:dataTable>
+
+
+            <p:ajaxExceptionHandler type="java.lang.RuntimeException"
+                                    update=":messages"
+                                    onexception="PF('exceptionDialog').show()"
+            />
+
+            <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!"
+                      widgetVar="exceptionDialog"
+                      height="500px">
+                Message: #{pfExceptionHandler.message} <br/>
+                StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false"/> <br/>
+
+            </p:dialog>
 
         </h:form>
 

@@ -3,7 +3,6 @@ package dmit2015.faces;
 import dmit2015.entity.Movie;
 import dmit2015.persistence.MovieRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,7 +12,6 @@ import org.omnifaces.util.Messages;
 
 @Named("currentMovieCreateView")
 @RequestScoped
-@RolesAllowed("Sales")
 public class MovieCreateView {
 
     @Inject

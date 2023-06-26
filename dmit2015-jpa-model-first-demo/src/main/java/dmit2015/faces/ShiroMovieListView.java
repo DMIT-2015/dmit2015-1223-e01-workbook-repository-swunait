@@ -1,12 +1,14 @@
 package dmit2015.faces;
 
 import dmit2015.entity.Movie;
-import dmit2015.persistence.MovieRepository;
-import dmit2015.security.Security;
+import dmit2015.persistence.ShiroMovieRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.subject.Subject;
 import org.omnifaces.util.Messages;
 
 import java.io.*;
@@ -14,19 +16,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Named("currentMovieListView")
+@Named("currentShiroMovieListView")
 @ViewScoped
-public class MovieListView implements Serializable {
+public class ShiroMovieListView implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private MovieRepository _movieRepository;
+    private ShiroMovieRepository _movieRepository;
 
     @Getter
     private List<Movie> movieList;
 
-//    @PostConstruct  // After @Inject is complete
+    @PostConstruct  // After @Inject is complete
     public void init() {
         try {
             movieList = _movieRepository.findAll();
@@ -38,15 +40,12 @@ public class MovieListView implements Serializable {
     }
 
     @Inject
-    private Security _security;
-
+    private Subject _currentUser;
+    @RequiresAuthentication
     public void onImportData() {
-        if ( ! _security.isAuthenticated()) {
-            throw new RuntimeException("Access denied. You do not have permission to execute this method.");
-        }
         //if (_movieRepository.count() == 0) {
             try {
-                final String username = _security.getUsername();
+                final String username = (String) _currentUser.getPrincipal();
                 try ( InputStream csvInputStream = getClass().getResourceAsStream("/data/csv/movies.csv");
                       InputStreamReader csvInputStreamReader = new InputStreamReader(Objects.requireNonNull(csvInputStream));
                       var reader = new BufferedReader(csvInputStreamReader) ) {

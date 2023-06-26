@@ -11,13 +11,13 @@
         xmlns:o="http://omnifaces.org/ui"
         xmlns:of="http://omnifaces.org/functions"
         xmlns:p="http://primefaces.org/ui"
+        xmlns:shiro="http://shiro.apache.org/tags"
         template="/WEB-INF/faces-templates/layout.xhtml"
 >
 
     <ui:param name="title" value="Movie - List"/>
 
     <ui:define name="maincontent">
-
         <h1>Movie List</h1>
 
         <p:messages id="messages"/>
@@ -32,13 +32,13 @@
 
             <p:commandButton value="Import Data"
                              icon="pi pi-file-import"
-                             action="#{currentMovieListView.onImportData()}"
-                             update=":messages moviesTable"
+                             action="#{currentShiroMovieListView.onImportData()}"
+                             update=":messages moviesTables"
             >
             </p:commandButton>
 
-            <p:dataTable id="moviesTable"
-                         value="#{currentMovieListView.movieList}"
+            <p:dataTable id="moviesTables"
+                         value="#{currentShiroMovieListView.movieList}"
                          var="currentItem">
 
                 <p:column headerText="Username">
@@ -92,6 +92,7 @@
                 </p:column>
 
                 <p:column headerText="Action">
+
                     <p:link id="editLink" outcome="edit" value="edit">
                         <f:param name="editId" value="#{currentItem.id}"/>
                     </p:link>

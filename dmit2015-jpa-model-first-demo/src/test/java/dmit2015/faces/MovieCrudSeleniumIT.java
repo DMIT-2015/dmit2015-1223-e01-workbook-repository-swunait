@@ -16,7 +16,7 @@ import java.time.Duration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -64,6 +64,19 @@ public class MovieCrudSeleniumIT {
         element.sendKeys(value);
         element.sendKeys(Keys.chord(Keys.TAB));
     }
+
+//    @Test
+//    void shouldSelectOneMenu() {
+//        driver.get("https://www.primefaces.org/showcase/ui/input/oneMenu.xhtml?jfwid=a0c02");
+//        assertEquals("PrimeFaces Showcase", driver.getTitle());
+//
+//        driver.manage().window().maximize();
+//        driver.findElement(By.id("j_idt343:option_label")).click();
+//        driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+//        final String lastItemXpathExpression = String.format("//ul[contains(@id,'j_idt343:option_items')]/li[@data-label='Option3']");
+//        driver.findElements(By.xpath(lastItemXpathExpression)).get(0).click();
+//        driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+//    }
 
     @Order(1)
     @ParameterizedTest

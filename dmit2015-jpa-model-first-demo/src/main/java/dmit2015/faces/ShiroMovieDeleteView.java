@@ -1,7 +1,7 @@
 package dmit2015.faces;
 
 import dmit2015.entity.Movie;
-import dmit2015.persistence.MovieRepository;
+import dmit2015.persistence.ShiroMovieRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.faces.annotation.ManagedProperty;
@@ -25,7 +25,7 @@ public class ShiroMovieDeleteView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private MovieRepository _movieRepository;
+    private ShiroMovieRepository _movieRepository;
 
     @Inject
     @ManagedProperty("#{param.editId}")

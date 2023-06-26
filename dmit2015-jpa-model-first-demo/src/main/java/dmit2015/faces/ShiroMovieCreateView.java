@@ -1,23 +1,22 @@
 package dmit2015.faces;
 
 import dmit2015.entity.Movie;
-import dmit2015.persistence.MovieRepository;
+import dmit2015.persistence.ShiroMovieRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.omnifaces.util.Messages;
 
 @Named("currentShiroMovieCreateView")
 @RequestScoped
-@RequiresRoles("Sales")
+//@RequiresRoles("Sales")
 public class ShiroMovieCreateView {
 
     @Inject
-    private MovieRepository _movieRepository;
+    private ShiroMovieRepository _movieRepository;
 
     @Getter
     private Movie newMovie = new Movie();
