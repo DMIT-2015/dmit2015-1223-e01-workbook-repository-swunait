@@ -52,6 +52,9 @@ public class MovieRepository {
     }
 
     public List<Movie> findAll() {
+        if ( !_security.isAuthenticated()) {
+            throw new RuntimeException("Access denied. Anonymous users are not allowed to view movies");
+        }
         // Return all movies if user is unauthenticated or has the IT Role
         if (!_security.isAuthenticated() || _security.isInAnyRole("IT")) {
             return em.createQuery("SELECT o FROM Movie o ", Movie.class)

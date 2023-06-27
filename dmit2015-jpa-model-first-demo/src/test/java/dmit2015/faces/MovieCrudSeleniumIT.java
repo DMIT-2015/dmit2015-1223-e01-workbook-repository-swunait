@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,7 +30,12 @@ public class MovieCrudSeleniumIT {
     @BeforeAll
     static void beforeAllTests() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        ChromeOptions options = new ChromeOptions();
+        options.setAcceptInsecureCerts(true);
+//        options.addArguments("ignore-certificate-errors");
+
+        driver = new ChromeDriver(options);
 
         // https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 //        WebDriverManager.firefoxdriver().setup();
@@ -63,6 +69,24 @@ public class MovieCrudSeleniumIT {
         element.clear();
         element.sendKeys(value);
         element.sendKeys(Keys.chord(Keys.TAB));
+    }
+
+    @Test
+    void shouldLogout() throws InterruptedException {
+        driver.get("https://localhost:8443/index.xhtml");
+        driver.findElement(By.cssSelector("a[onclick='PrimeFaces.ab({s:\"j_idt9:j_idt21\",f:\"j_idt9\"});return false;']")).click();
+        WebElement usernameElement = driver.findElement(By.cssSelector("input[class*='ui-inputtext']"));
+        usernameElement.clear();
+        usernameElement.sendKeys("DLEE@dmit2015.ca");
+        WebElement passwordElement = driver.findElement(By.cssSelector("input[class^='ui-password']"));
+        passwordElement.clear();
+        passwordElement.sendKeys("Password2015");
+        driver.findElement(By.cssSelector("button[id^='j']")).click();
+        var wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement logoutLink = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[onclick='PrimeFaces.ab({s:\"j_idt9:j_idt32\",f:\"j_idt9\"});return false;']")));
+        logoutLink.click();
+        //driver.findElement(By.cssSelector("a[onclick='PrimeFaces.ab({s:\"j_idt9:j_idt32\",f:\"j_idt9\"});return false;']")).click();
+        Thread.sleep(3000);
     }
 
 //    @Test
