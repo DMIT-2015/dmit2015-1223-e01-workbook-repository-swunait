@@ -1,0 +1,11 @@
+###
+GET http://localhost:8080/restapi/hello-world
+Accept: text/plain
+
+###
+GET http://localhost:8080/restapi/hello-world
+Accept: text/html
+
+###
+GET http://localhost:8080/restapi/hello-world
+Accept: text/xml
