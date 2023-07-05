@@ -9,7 +9,7 @@ public class TodoItem {
 
     private String name;
 
-    private boolean completed;
+    private boolean complete;
 
     private Integer version;
 

@@ -9,8 +9,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +33,10 @@ public class TodoItemResourceRestAssuredIT {
     @CsvSource(value = {
             "Create RESTAssured IT for TodoItem REST API endpoint, false"
     })
-    void shouldCreate(String name, boolean completed) {
+    void shouldCreate(String name, boolean complete) {
         TodoItem newTodoItem = new TodoItem();
         newTodoItem.setName(name);
-        newTodoItem.setCompleted(completed);
+        newTodoItem.setComplete(complete);
 
         Jsonb jsonb = JsonbBuilder.create();
         String jsonBody = jsonb.toJson(newTodoItem);
@@ -60,7 +58,7 @@ public class TodoItemResourceRestAssuredIT {
     @CsvSource(value = {
             "Create RESTAssured IT for TodoItem REST API endpoint, false"
     })
-    void shouldFineOne(String name, boolean completed) {
+    void shouldFineOne(String name, boolean complete) {
         Response response = given()
                 .accept(ContentType.JSON)
                 .when()
@@ -77,8 +75,8 @@ public class TodoItemResourceRestAssuredIT {
 
         assertThat(existingTodoItem.getName())
                 .isEqualTo(name);
-        assertThat(existingTodoItem.isCompleted())
-                .isEqualTo(completed);
+        assertThat(existingTodoItem.isComplete())
+                .isEqualTo(complete);
 
     }
 
@@ -87,7 +85,7 @@ public class TodoItemResourceRestAssuredIT {
     @CsvSource(value = {
             "Create RESTAssured IT for TodoItem REST API endpoint, false"
     })
-    void shouldFindAll(String name, boolean completed) {
+    void shouldFindAll(String name, boolean complete) {
         Response response = given()
                 .accept(ContentType.JSON)
                 .when()
@@ -106,17 +104,17 @@ public class TodoItemResourceRestAssuredIT {
         TodoItem lastTodoItem = queryResultList.get(queryResultList.size() - 1);
         assertThat(lastTodoItem.getName())
                 .isEqualTo(name);
-        assertThat(lastTodoItem.isCompleted())
-                .isEqualTo(completed);
+        assertThat(lastTodoItem.isComplete())
+                .isEqualTo(complete);
 
     }
 
     @Order(4)
     @ParameterizedTest
     @CsvSource(value = {
-            "Run RESTAssured IT for TodoItem REST API endpoint, 1"
+            "Run RESTAssured IT for TodoItem REST API endpoint, true"
     })
-    void shouldUpdate(String name, boolean completed) {
+    void shouldUpdate(String name, boolean complete) {
         Response response = given()
                 .accept(ContentType.JSON)
                 .when()
@@ -131,7 +129,7 @@ public class TodoItemResourceRestAssuredIT {
         Jsonb jsonb = JsonbBuilder.create();
         TodoItem existingTodoItem = jsonb.fromJson(jsonBody, TodoItem.class);
         existingTodoItem.setName(name);
-        existingTodoItem.setCompleted(completed);
+        existingTodoItem.setComplete(complete);
 
         String jsonTodoItem = jsonb.toJson(existingTodoItem);
 
