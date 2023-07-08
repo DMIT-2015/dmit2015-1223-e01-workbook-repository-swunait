@@ -65,6 +65,7 @@ public class TodoItemCrudView implements Serializable {
             try {
                 _todoItemMpRestClient.update(editId, selectedTodoItem);
                 Messages.addFlashGlobalInfo("Update was successful.");
+                todoItemList = _todoItemMpRestClient.findAll();
             } catch (Exception e) {
                 e.printStackTrace();
                 Messages.addGlobalError("Update was not successful.");
@@ -78,6 +79,7 @@ public class TodoItemCrudView implements Serializable {
     public void onDelete() {
         try {
             _todoItemMpRestClient.delete(editId);
+            editId = null;
             selectedTodoItem = null;
             Messages.addGlobalInfo("Delete was successful.");
             todoItemList = _todoItemMpRestClient.findAll();

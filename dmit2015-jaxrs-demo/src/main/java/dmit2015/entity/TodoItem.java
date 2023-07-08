@@ -43,10 +43,11 @@ public class TodoItem implements Serializable {
         updateTime = LocalDateTime.now();
     }
 
-    public TodoItem(Long id, String name, boolean complete) {
+    public TodoItem(Long id, String name, boolean complete, int version) {
         this.id = id;
         this.name = name;
         this.complete = complete;
+        this.version = version;
     }
 
 }

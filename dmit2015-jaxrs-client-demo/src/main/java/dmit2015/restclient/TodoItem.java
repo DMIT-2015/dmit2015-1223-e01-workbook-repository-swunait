@@ -11,6 +11,6 @@ public class TodoItem {
 
     private boolean complete;
 
-    private Integer version;
+    private int version;
 
 }
