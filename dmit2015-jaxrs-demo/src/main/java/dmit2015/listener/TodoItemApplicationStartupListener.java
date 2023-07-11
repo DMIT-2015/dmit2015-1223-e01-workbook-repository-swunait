@@ -1,10 +1,15 @@
 package dmit2015.listener;
 
+import common.security.CallerUser;
+import common.security.CallerUserRepository;
 import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @WebListener
 public class TodoItemApplicationStartupListener implements ServletContextListener {
@@ -12,12 +17,27 @@ public class TodoItemApplicationStartupListener implements ServletContextListene
     @Inject
     private TodoItemRepository _todoItemRepository;
 
+    @Inject
+    private CallerUserRepository _callerUserRepository;
+
     public TodoItemApplicationStartupListener() {
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         /* This method is called when the servlet context is initialized(when the Web application is deployed). */
+        try {
+            CallerUser user1 = new CallerUser();
+            user1.setUsername("DLEE@dmit2015.ca");
+            _callerUserRepository.add(user1, "Password2015", new String[]{"Sales","IT"});
+
+            CallerUser user2 = new CallerUser();
+            user2.setUsername("DAUSTIN@dmit2015.ca");
+            _callerUserRepository.add(user2, "Password2015", new String[]{"IT"});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             TodoItem todo1 = new TodoItem();
             todo1.setName("Create JAX-RS demo project");
@@ -37,6 +57,8 @@ public class TodoItemApplicationStartupListener implements ServletContextListene
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+
     }
 
     @Override

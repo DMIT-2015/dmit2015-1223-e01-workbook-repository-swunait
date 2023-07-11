@@ -1,0 +1,30 @@
+### GET a JWT for DLEE using LDAP Authentication
+POST http://localhost:8080/restapi/jwt/ldapJsonLogin
+Content-Type:     application/json
+
+{
+  "username": "DLEE",
+  "password": "Password2015"
+
+}
+
+### GET a JWT for DAUSTIN using LDAP Authentication
+POST http://localhost:8080/restapi/jwt/ldapJsonLogin
+Content-Type:     application/json
+
+{
+  "username": "DAUSTIN",
+  "password": "Password2015"
+
+}
+
+### GET a JWT for DLEE@dmit2015.ca using Database Authentication
+POST http://localhost:8080/restapi/jwt/jsonLogin
+Content-Type:     application/json
+
+{
+  "username": "DLEE@dmit2015.ca",
+  "password": "Password2015"
+
+}
+

@@ -3,7 +3,9 @@ package dmit2015.resource;
 import dmit2015.dto.TodoItemDto;
 import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.json.*;
 import jakarta.json.bind.Jsonb;
@@ -16,6 +18,8 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import java.net.URI;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,12 +61,15 @@ import java.util.stream.Collectors;
  *
  */
 
-@ApplicationScoped
+@RequestScoped
 // This is a CDI-managed bean that is created only once during the life cycle of the application
 @Path("TodoItemsDto")	        // All methods of this class are associated this URL path
 @Consumes(MediaType.APPLICATION_JSON)	// All methods this class accept only JSON format data
 @Produces(MediaType.APPLICATION_JSON)	// All methods returns data that has been converted to JSON format
 public class TodoItemDtoResource {
+
+    @Inject
+    private JsonWebToken _callerPrincipal;
 
     @Context
     private UriInfo uriInfo;
@@ -70,8 +77,9 @@ public class TodoItemDtoResource {
     @Inject
     private TodoItemRepository todoItemRepository;
 
+    @RolesAllowed({"Sales","IT"})
     @POST   // POST: restapi/TodoItemsDto
-    public Response postTodoItem(@Valid TodoItemDto dto) {
+    public Response postTodoItem(TodoItemDto dto) {
         if (dto == null) {
             throw new BadRequestException();
         }
@@ -132,6 +140,7 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
+    @RolesAllowed({"IT"})
     @DELETE // DELETE: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {

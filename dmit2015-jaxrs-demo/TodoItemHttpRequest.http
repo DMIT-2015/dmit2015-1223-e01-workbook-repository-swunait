@@ -7,6 +7,7 @@ GET http://localhost:8080/restapi/TodoItems/1
 ### POST a new TodoItem with valid data
 POST http://localhost:8080/restapi/TodoItems
 Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
 
 {
   "name": "Start DMIT2015 Assignment 3",
@@ -38,6 +39,7 @@ Content-Type: application/json
 
 ### Delete an TodoItem with an id of 2
 DELETE http://localhost:8080/restapi/TodoItems/2
+Authorization: Bearer {{jwtToken}}
 
 ### Delete an TodoItem with an id of 4
 DELETE http://localhost:8080/restapi/TodoItems/4

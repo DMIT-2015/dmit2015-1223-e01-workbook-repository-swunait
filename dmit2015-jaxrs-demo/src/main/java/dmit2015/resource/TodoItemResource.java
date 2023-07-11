@@ -3,6 +3,7 @@ package dmit2015.resource;
 import common.validator.BeanValidator;
 import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
@@ -67,6 +68,7 @@ public class TodoItemResource {
     @Inject
     private TodoItemRepository todoItemRepository;
 
+    @RolesAllowed({"Sales","IT"})
     @POST   // POST: /restapi/TodoItems
     public Response postTodoItem(TodoItem newTodoItem) {
         if (newTodoItem == null) {
@@ -145,6 +147,7 @@ public class TodoItemResource {
         return Response.ok(existingTodoItem).build();
     }
 
+    @RolesAllowed({"IT"})
     @DELETE // DELETE: /restapi/TodoItems/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {

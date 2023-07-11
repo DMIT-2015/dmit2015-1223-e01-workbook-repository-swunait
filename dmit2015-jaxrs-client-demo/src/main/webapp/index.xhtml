@@ -45,65 +45,21 @@
             <p:panel id="formPanel" header="Form Panel">
                 <div class="ui-fluid">
 
-                    <!--                    <div class="field">-->
-                    <!--                        <p:outputLabel for="@next" >Text Value</p:outputLabel>-->
-                    <!--                        <p:inputText id="textValue" value="TODO Faces EL"/>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="field col-12 md:col-3">-->
-                    <!--                        <p:outputLabel for="@next" value="Select One Value"/>-->
-                    <!--                        <p:selectOneMenu id="option" value="TODO Faces EL">-->
-                    <!--                            <f:selectItem itemLabel="Select One" itemValue=""/>-->
-                    <!--                            <f:selectItems value="TODO Faces EL"-->
-                    <!--                                           var="currentSelectItem"-->
-                    <!--                                           itemLabel="#{currentSelectItem}"-->
-                    <!--                                           itemValue="#{currentSelectItem}" />-->
-                    <!--                        </p:selectOneMenu>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="field ">-->
-                    <!--                        <p:outputLabel for="@next" value="Select Radios"/>-->
-                    <!--                        <p:selectOneRadio value="TODO Faces EL">-->
-                    <!--                            <f:selectItems value="TODO Faces EL"-->
-                    <!--                                           var="currentSelectItem"-->
-                    <!--                                           itemLabel="#{currentSelectItem}"-->
-                    <!--                                           itemValue="#{currentSelectItem}" />-->
-                    <!--                        </p:selectOneRadio>-->
-                    <!--                    </div>-->
+                    <div class="field">
+                        <p:outputLabel for="@next" >City</p:outputLabel>
+                        <p:inputText id="city" value="#{currentOpenWeatherApiClientView.city}"/>
+                    </div>
 
-                    <!--                    <div class="field">-->
-                    <!--                        <p:selectBooleanCheckbox  id="booleanCheckbox"-->
-                    <!--                                                  itemLabel="Check me out"-->
-                    <!--                                                  value="TODO Faces EL"/>-->
-                    <!--                    </div>-->
+                        <div class="formgroup-inline">
+                            <div class="field">
+                                <p:commandButton value="Submit"
+                                                 update=":messages :growl"
+                                                 action="#{currentOpenWeatherApiClientView.doSearchByCity}"
+                                >
+                                </p:commandButton>
+                            </div>
 
-                    <!--                    <div class="field col-12 md:col-2">-->
-                    <!--                        <p:outputLabel for="dateValue" >Date Value</p:outputLabel>-->
-                    <!--                        <p:datePicker id="dateValue"-->
-                    <!--                                      value=""-->
-                    <!--                                      pattern="yyyy-MM-dd"-->
-                    <!--                                      showIcon="true"-->
-                    <!--                                      monthNavigator="true"-->
-                    <!--                                      yearNavigator="true"-->
-                    <!--                        >-->
-                    <!--                            <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />-->
-                    <!--                        </p:datePicker>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="formgroup-inline">-->
-                    <!--                        <div class="field">-->
-                    <!--                            <p:commandButton value="Submit"-->
-                    <!--                                             update=":messages "-->
-                    <!--                            >-->
-                    <!--                            </p:commandButton>-->
-                    <!--                        </div>-->
-
-                    <!--                        <div class="field">-->
-                    <!--                            <p:commandButton value="Clear"-->
-                    <!--                                             update="@form :outputPanel"-->
-                    <!--                                             styleClass="ui-button-secondary"-->
-                    <!--                            >-->
-                    <!--                            </p:commandButton>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                        </div>
 
                 </div>
 
