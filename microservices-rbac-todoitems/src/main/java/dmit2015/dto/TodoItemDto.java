@@ -19,6 +19,6 @@ public class TodoItemDto implements Serializable {
 
     private boolean complete;
 
-    private int version;
+    private Integer version;
 
 }

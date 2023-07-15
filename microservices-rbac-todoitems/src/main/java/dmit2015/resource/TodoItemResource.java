@@ -5,7 +5,6 @@ import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.ws.rs.*;
@@ -13,7 +12,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
 import java.util.Optional;
@@ -57,15 +55,12 @@ import java.util.Optional;
  *
  */
 
-@RequestScoped
+@ApplicationScoped
 // This is a CDI-managed bean that is created only once during the life cycle of the application
 @Path("TodoItems")	        // All methods of this class are associated this URL path
 @Consumes(MediaType.APPLICATION_JSON)	// All methods this class accept only JSON format data
 @Produces(MediaType.APPLICATION_JSON)	// All methods returns data that has been converted to JSON format
 public class TodoItemResource {
-
-    @Inject
-    private JsonWebToken _callerPrincipal;
 
     @Context
     private UriInfo uriInfo;
@@ -73,7 +68,7 @@ public class TodoItemResource {
     @Inject
     private TodoItemRepository todoItemRepository;
 
-    @RolesAllowed("Sales")
+    @RolesAllowed({"Sales","Shipping"})
     @POST   // POST: /restapi/TodoItems
     public Response postTodoItem(TodoItem newTodoItem) {
         if (newTodoItem == null) {
@@ -87,12 +82,6 @@ public class TodoItemResource {
                     .entity(errorMessage)
                     .build();
         }
-
-        String username = _callerPrincipal.getName();
-        if (username == null) {
-            throw new NotAuthorizedException("You must be logged to create a new entity");
-        }
-        newTodoItem.setUsername(username);
 
         todoItemRepository.add(newTodoItem);
         URI todoItemsUri = uriInfo.getAbsolutePathBuilder().path(newTodoItem.getId().toString()).build();
@@ -114,13 +103,10 @@ public class TodoItemResource {
 
     @GET    // GET: /restapi/TodoItems
     public Response getTodoItems() {
-        String username = _callerPrincipal.getName();
-        if (username == null) {
-            throw new NotAuthorizedException("You must be logged in to get entity");
-        }
-        return Response.ok(todoItemRepository.findByUsername(username)).build();
+        return Response.ok(todoItemRepository.findAll()).build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @PUT    // PUT: /restapi/TodoItems/5
     @Path("{id}")
     public Response updateTodoItem(@PathParam("id") Long id, TodoItem updatedTodoItem) {
@@ -134,14 +120,6 @@ public class TodoItemResource {
                     .status(Response.Status.BAD_REQUEST)
                     .entity(errorMessage)
                     .build();
-        }
-
-        String username = _callerPrincipal.getName();
-        if (username == null) {
-            throw new NotAuthorizedException("You must be logged in to update");
-        }
-        if ( ! username.equalsIgnoreCase(updatedTodoItem.getUsername())) {
-            throw new BadRequestException("You are not allowed to update an entity from another user.");
         }
 
         TodoItem existingTodoItem = todoItemRepository
@@ -170,6 +148,7 @@ public class TodoItemResource {
         return Response.ok(existingTodoItem).build();
     }
 
+    @RolesAllowed({"Finance"})
     @DELETE // DELETE: /restapi/TodoItems/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
@@ -177,15 +156,6 @@ public class TodoItemResource {
         TodoItem existingTodoItem = todoItemRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
-
-        String username = _callerPrincipal.getName();
-        if (username == null) {
-            throw new NotAuthorizedException("You must be logged in to get delete");
-        }
-        if ( ! username.equalsIgnoreCase(existingTodoItem.getUsername())) {
-            throw new BadRequestException("You are not allowed to delete an entity from another user.");
-        }
-
         todoItemRepository.delete(existingTodoItem);
 
         return Response.noContent().build();

@@ -7,7 +7,7 @@ import org.eclipse.microprofile.auth.LoginConfig;
 
 @ApplicationPath("/restapi")
 @LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
-@DeclareRoles({"Sales"})
+@DeclareRoles({"Sales","Shipping","Finance"})
 public class HelloApplication extends Application {
 
 }

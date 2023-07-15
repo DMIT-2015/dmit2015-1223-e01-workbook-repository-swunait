@@ -65,16 +65,13 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)	// All methods returns data that has been converted to JSON format
 public class TodoItemDtoResource {
 
-    @Inject
-    private JsonWebToken _callerPrincipal;
-
     @Context
     private UriInfo uriInfo;
 
     @Inject
     private TodoItemRepository todoItemRepository;
 
-    @RolesAllowed("Sales")
+    @RolesAllowed({"Sales","Shipping"})
     @POST   // POST: restapi/TodoItemsDto
     public Response postTodoItem(TodoItemDto dto) {
         if (dto == null) {
@@ -87,17 +84,12 @@ public class TodoItemDtoResource {
         }
 
         TodoItem newTodoItem = mapFromDto(dto);
-
-        String username = _callerPrincipal.getName();
-        newTodoItem.setUsername(username);
-
         todoItemRepository.add(newTodoItem);
 
         URI todoItemsUri = uriInfo.getAbsolutePathBuilder().path(newTodoItem.getId().toString()).build();
         return Response.created(todoItemsUri).build();
     }
 
-    @RolesAllowed("Sales")
     @GET    // GET: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response getTodoItem(@PathParam("id") Long id) {
@@ -112,15 +104,12 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
-    @RolesAllowed({"Sales"})
     @GET    // GET: restapi/TodoItemsDto
     public Response getTodoItems() {
-        //return Response.ok(todoItemRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList())).build();
-        String username = _callerPrincipal.getName();
-        return Response.ok(todoItemRepository.findByUsername(username).stream().map(this::mapToDto).collect(Collectors.toList())).build();
+        return Response.ok(todoItemRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList())).build();
     }
 
-    @RolesAllowed("Sales")
+    @RolesAllowed({"Sales","Shipping"})
     @PUT    // PUT: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response updateTodoItem(@PathParam("id") Long id, TodoItemDto dto) {
@@ -139,12 +128,6 @@ public class TodoItemDtoResource {
         }
 
         TodoItem existingTodoItem = optionalTodoItem.orElseThrow();
-
-        String username = _callerPrincipal.getName();
-        if ( ! username.equalsIgnoreCase(existingTodoItem.getUsername())) {
-            throw new BadRequestException("You are not allowed to update an entity from another user.");
-        }
-
         existingTodoItem.setName(dto.getName());
         existingTodoItem.setComplete(dto.isComplete());
         todoItemRepository.update(existingTodoItem);
@@ -152,7 +135,7 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
-    @RolesAllowed("Sales")
+    @RolesAllowed({"Finance"})
     @DELETE // DELETE: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
@@ -160,11 +143,6 @@ public class TodoItemDtoResource {
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
-        }
-
-        String username = _callerPrincipal.getName();
-        if ( ! username.equalsIgnoreCase(optionalTodoItem.orElseThrow().getUsername())) {
-            throw new BadRequestException("You are not allowed to delete an entity from another user.");
         }
 
         todoItemRepository.deleteById(id);
