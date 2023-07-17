@@ -73,7 +73,6 @@ public class TodoItemResource {
     @Inject
     private TodoItemRepository todoItemRepository;
 
-    @RolesAllowed("Sales")
     @POST   // POST: /restapi/TodoItems
     public Response postTodoItem(TodoItem newTodoItem) {
         if (newTodoItem == null) {

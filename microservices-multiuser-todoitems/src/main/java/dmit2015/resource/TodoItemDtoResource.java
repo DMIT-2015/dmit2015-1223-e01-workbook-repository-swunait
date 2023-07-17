@@ -74,9 +74,13 @@ public class TodoItemDtoResource {
     @Inject
     private TodoItemRepository todoItemRepository;
 
-    @RolesAllowed("Sales")
     @POST   // POST: restapi/TodoItemsDto
     public Response postTodoItem(TodoItemDto dto) {
+        String username = _callerPrincipal.getName();
+        if (username == null) {
+            throw new NotAuthorizedException("You are not authorized to access this resource.");
+        }
+
         if (dto == null) {
             throw new BadRequestException();
         }
@@ -88,7 +92,6 @@ public class TodoItemDtoResource {
 
         TodoItem newTodoItem = mapFromDto(dto);
 
-        String username = _callerPrincipal.getName();
         newTodoItem.setUsername(username);
 
         todoItemRepository.add(newTodoItem);
@@ -97,10 +100,14 @@ public class TodoItemDtoResource {
         return Response.created(todoItemsUri).build();
     }
 
-    @RolesAllowed("Sales")
     @GET    // GET: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response getTodoItem(@PathParam("id") Long id) {
+        String username = _callerPrincipal.getName();
+        if (username == null) {
+            throw new NotAuthorizedException("You are not authorized to access this resource.");
+        }
+
         Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(id);
 
         if (optionalTodoItem.isEmpty()) {
@@ -112,18 +119,24 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
-    @RolesAllowed({"Sales"})
     @GET    // GET: restapi/TodoItemsDto
     public Response getTodoItems() {
         //return Response.ok(todoItemRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList())).build();
         String username = _callerPrincipal.getName();
+        if (username == null) {
+            throw new NotAuthorizedException("You are not authorized to access this resource.");
+        }
         return Response.ok(todoItemRepository.findByUsername(username).stream().map(this::mapToDto).collect(Collectors.toList())).build();
     }
 
-    @RolesAllowed("Sales")
     @PUT    // PUT: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response updateTodoItem(@PathParam("id") Long id, TodoItemDto dto) {
+        String username = _callerPrincipal.getName();
+        if (username == null) {
+            throw new NotAuthorizedException("You are not authorized to access this resource.");
+        }
+
         if (!id.equals(dto.getId())) {
             throw new BadRequestException();
         }
@@ -140,7 +153,6 @@ public class TodoItemDtoResource {
 
         TodoItem existingTodoItem = optionalTodoItem.orElseThrow();
 
-        String username = _callerPrincipal.getName();
         if ( ! username.equalsIgnoreCase(existingTodoItem.getUsername())) {
             throw new BadRequestException("You are not allowed to update an entity from another user.");
         }
@@ -152,17 +164,20 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
-    @RolesAllowed("Sales")
     @DELETE // DELETE: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
+        String username = _callerPrincipal.getName();
+        if (username == null) {
+            throw new NotAuthorizedException("You are not authorized to access this resource.");
+        }
+
         Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(id);
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
         }
 
-        String username = _callerPrincipal.getName();
         if ( ! username.equalsIgnoreCase(optionalTodoItem.orElseThrow().getUsername())) {
             throw new BadRequestException("You are not allowed to delete an entity from another user.");
         }
