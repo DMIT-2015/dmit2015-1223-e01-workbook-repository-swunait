@@ -197,7 +197,7 @@
                             1. From the main menu, choose `Run | Attach to Process`
                             2. IntelliJ IDEA will show the list of running local processes. Select the process with the `xxx-bootable.jar` name to attach to.
                         -->
-                        <argument>-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8787,server=y,suspend=n</argument>
+                        <argument>-agentlib:jdwp=transport=dt_socket,address=git8787,server=y,suspend=n</argument>
                         <argument>-Djboss.bind.address=0.0.0.0</argument>
                     </jvmArguments>
                 </configuration>
