@@ -6,4 +6,9 @@ build:
   ref: main
   uri: your-gith-repo.git
 deploy:
+  env:
+    - name: JAVA_DEBUG
+      value: $true
+    - name: JAVA_DEBUG_PORT
+      value: 8787
   replicas: 1
