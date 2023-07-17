@@ -153,6 +153,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -172,8 +173,8 @@
                     <layers>
                         <!-- https://docs.wildfly.org/28/Bootable_Guide.html#wildfly_layers -->
                         <layer>cloud-server</layer>
-                        <layer>management</layer>
-                        <layer>microprofile-platform</layer>
+<!--                        <layer>management</layer>-->
+<!--                        <layer>microprofile-platform</layer>-->
 <!--                        <layer>ee-security</layer>-->
                     </layers>
 <!--                    <cli-sessions>-->
