@@ -1,4 +1,4 @@
-package dmit2015.dmit2015jaxrsdemo;
+package dmit2015.resource;
 
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.ws.rs.ApplicationPath;
@@ -7,6 +7,6 @@ import org.eclipse.microprofile.auth.LoginConfig;
 
 @ApplicationPath("/restapi")
 @LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
-public class HelloApplication extends Application {
+public class JaxRsApplication extends Application {
 
 }
