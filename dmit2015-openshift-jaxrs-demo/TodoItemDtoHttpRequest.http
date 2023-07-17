@@ -1,5 +1,8 @@
+### Check health
+GET http://localhost:9990/health/live
+
 ### Get all TodoItemsDto
-GET http://localhost:8080/restapi/TodoItemsDto
+GET http://localhost:9990/health/live
 
 ### Get a single TodoItem with an id of 1
 GET http://localhost:8080/restapi/TodoItemsDto/1

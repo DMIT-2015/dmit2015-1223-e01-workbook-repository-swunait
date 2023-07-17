@@ -1,0 +1,9 @@
+build:
+  bootableJar:
+    builderImage: 'registry.access.redhat.com/ubi8/openjdk-17:latest'
+  contextDir: dmit2015-openshift-jaxrs-demo
+  mode: bootable-jar
+  ref: main
+  uri: your-gith-repo.git
+deploy:
+  replicas: 1

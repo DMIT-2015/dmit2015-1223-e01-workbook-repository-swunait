@@ -25,13 +25,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <version>6.0</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.microprofile</groupId>-->
+<!--            <artifactId>microprofile</artifactId>-->
+<!--            <version>6.0</version>-->
+<!--            <type>pom</type>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -173,7 +173,7 @@
                     <layers>
                         <!-- https://docs.wildfly.org/28/Bootable_Guide.html#wildfly_layers -->
                         <layer>cloud-server</layer>
-<!--                        <layer>management</layer>-->
+                        <layer>management</layer>
 <!--                        <layer>microprofile-platform</layer>-->
 <!--                        <layer>ee-security</layer>-->
                     </layers>
@@ -197,7 +197,8 @@
                             1. From the main menu, choose `Run | Attach to Process`
                             2. IntelliJ IDEA will show the list of running local processes. Select the process with the `xxx-bootable.jar` name to attach to.
                         -->
-                        <arg>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</arg>
+                        <argument>-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8787,server=y,suspend=n</argument>
+                        <argument>-Djboss.bind.address=0.0.0.0</argument>
                     </jvmArguments>
                 </configuration>
                 <executions>
