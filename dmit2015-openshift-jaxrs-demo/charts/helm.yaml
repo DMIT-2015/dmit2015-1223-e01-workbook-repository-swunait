@@ -8,7 +8,7 @@ build:
 deploy:
   env:
     - name: JAVA_DEBUG
-      value: $true
+      value: 'true'
     - name: JAVA_DEBUG_PORT
-      value: 8787
+      value: '8787'
   replicas: 1

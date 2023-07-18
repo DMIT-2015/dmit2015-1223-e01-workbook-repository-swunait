@@ -198,9 +198,9 @@
                             2. IntelliJ IDEA will show the list of running local processes. Select the process with the `xxx-bootable.jar` name to attach to.
                         -->
                         <argument>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</argument>
-<!--                        <argument>-Djboss.bind.address=0.0.0.0</argument>-->
                     </jvmArguments>
 
+                    <!-- Build a bootable JAR for cloud environment. -->
                     <cloud />
                 </configuration>
                 <executions>
