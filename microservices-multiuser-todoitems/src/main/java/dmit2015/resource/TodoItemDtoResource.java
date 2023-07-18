@@ -114,6 +114,11 @@ public class TodoItemDtoResource {
             throw new NotFoundException();
         }
         TodoItem existingTodoItem = optionalTodoItem.get();
+
+        if ( !username.equalsIgnoreCase(existingTodoItem.getUsername())) {
+            throw new NotAuthorizedException("You are not allowed to fetch an entity that is owned by another user.");
+        }
+
         TodoItemDto dto = mapToDto(existingTodoItem);
 
         return Response.ok(dto).build();
@@ -179,7 +184,7 @@ public class TodoItemDtoResource {
         }
 
         if ( ! username.equalsIgnoreCase(optionalTodoItem.orElseThrow().getUsername())) {
-            throw new BadRequestException("You are not allowed to delete an entity from another user.");
+            throw new NotAuthorizedException("You are not allowed to delete an entity from another user.");
         }
 
         todoItemRepository.deleteById(id);

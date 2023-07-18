@@ -6,6 +6,10 @@ Authorization: Bearer {{jwtToken}}
 GET http://localhost:8182/restapi/TodoItemsDto/1
 Authorization: Bearer {{jwtToken}}
 
+### Get a single TodoItem with from another user
+GET http://localhost:8182/restapi/TodoItemsDto/2
+Authorization: Bearer {{jwtToken}}
+
 ### POST a new TodoItem with valid data
 POST http://localhost:8182/restapi/TodoItemsDto
 Content-Type: application/json
