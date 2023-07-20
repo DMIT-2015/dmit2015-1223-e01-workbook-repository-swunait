@@ -1,0 +1,15 @@
+### Start a Batchlet to import all the data from the CSV file to our database
+# curl -i -X POST http://localhost:8080/restapi/batch-jobs/batchletEnforcementZoneCentre
+POST http://localhost:8080/restapi/batch-jobs/batchletEnforcementZoneCentre
+
+### Get the status of batch job 1
+GET http://localhost:8080/restapi/batch-jobs/1
+
+### Start a Chunk to read the CSV file, change it to an SQL insert statement, write the SQL insert statements toa file
+# curl -i -X POST http://localhost:8080/restapi/batch-jobs/chunkEnforcementZoneCentre
+POST http://localhost:8080/restapi/batch-jobs/chunkEnforcementZoneCentre
+
+###
+
+
+
