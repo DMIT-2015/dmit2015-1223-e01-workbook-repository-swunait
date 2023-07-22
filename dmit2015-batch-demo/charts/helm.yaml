@@ -1,10 +1,10 @@
 build:
   bootableJar:
     builderImage: 'registry.access.redhat.com/ubi8/openjdk-17:latest'
-  contextDir: dmit2015-openshift-jaxrs-demo
+  contextDir: dmit2015-batch-demo/
   mode: bootable-jar
   ref: main
-  uri: your-gith-repo.githttps://github.com/DMIT-2015/dmit2015-1223-e01-workbook-repository-swunait.git
+  uri: https://github.com/DMIT-2015/dmit2015-1223-e01-workbook-repository-swunait.git
 deploy:
   env:
     - name: JAVA_DEBUG

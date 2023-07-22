@@ -55,16 +55,16 @@
     <!--    </persistence-unit>-->
 
 
-        <persistence-unit name="oracle-jpa-user2015-pu" transaction-type="JTA">
-            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-            <jta-data-source>java:app/datasources/oracleUser2015DS</jta-data-source>
+<!--        <persistence-unit name="oracle-jpa-user2015-pu" transaction-type="JTA">-->
+<!--            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--            <jta-data-source>java:app/datasources/oracleUser2015DS</jta-data-source>-->
 
-            <properties>
-                <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+<!--            <properties>-->
+<!--                <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>-->
 
-                <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-            </properties>
-        </persistence-unit>
+<!--                <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+<!--            </properties>-->
+<!--        </persistence-unit>-->
 
     <!--    <persistence-unit name="oracle-jpa-hr-pu" transaction-type="JTA">-->
     <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
@@ -114,14 +114,14 @@
     <!--        </properties>-->
     <!--    </persistence-unit>-->
 
-    <!--    <persistence-unit name="mariadb-jpa-pu" transaction-type="JTA">-->
-    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-    <!--        <jta-data-source>java:app/datasources/mariadbDS</jta-data-source>-->
+        <persistence-unit name="mariadb-jpa-pu" transaction-type="JTA">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <jta-data-source>java:app/datasources/mariadbDS</jta-data-source>
 
-    <!--        <properties>-->
-    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>-->
-    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-    <!--        </properties>-->
-    <!--    </persistence-unit>-->
+            <properties>
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
+                <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            </properties>
+        </persistence-unit>
 
 </persistence>
