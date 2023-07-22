@@ -1,5 +1,5 @@
 ### Get a count on the number of records
-GET http://localhost:8080/restapi/EnforcementZoneCentres/count
+GET http://{{server}}/restapi/EnforcementZoneCentres/count
 
 ### Get an entity with siteId of 4062
-GET http://localhost:8080/restapi/EnforcementZoneCentres/4062
+GET http://{{server}}/restapi/EnforcementZoneCentres/4062
