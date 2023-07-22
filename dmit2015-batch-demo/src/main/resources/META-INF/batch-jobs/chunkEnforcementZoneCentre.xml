@@ -7,7 +7,7 @@
 <!--        <property name="output_file" value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.sql"/>-->
 <!--        <property name="input_file" value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv"/>-->
         <property name="output_file" value="/tmp/Scheduled_Photo_Enforcement_Zone_Centre_Points.sql"/>
-        <property name="input_file" value="/tmp/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv"/>
+        <property name="input_file" value="/data/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv"/>
 
         <property name="table_name" value="edmonton_scheduled_photo_enforcement_zone_centre_point"/>
     </properties>

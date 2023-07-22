@@ -18,6 +18,7 @@ import org.locationtech.jts.io.WKTReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -53,8 +54,8 @@ public class EnforcementZoneCentreBatchlet extends AbstractBatchlet {
 //        String inputFile = jobParameters.getProperty("input_file");
 
         // For reading external files outside of the project use the code below:
-        try (BufferedReader reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile())))	{
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(_inputFile))))	{
+//        try (BufferedReader reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile())))	{
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(inputFile))))	{
             String line;
             final String delimiter = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
             // Skip the first line as it is containing column headings

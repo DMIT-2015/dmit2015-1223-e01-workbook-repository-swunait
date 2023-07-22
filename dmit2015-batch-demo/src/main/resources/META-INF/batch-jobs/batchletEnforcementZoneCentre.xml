@@ -5,7 +5,7 @@
 
     <properties>
 <!--        <property name="input_file" value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />-->
-        <property name="input_file" value="/tmp/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />
+        <property name="input_file" value="/data/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />
     </properties>
 
     <!--    <listeners>-->
@@ -21,7 +21,7 @@
         <batchlet ref="enforcementZoneCentreBatchlet">
             <properties>
 <!--                <property name="input_file" value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />-->
-                <property name="input_file" value="/tmp/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />
+                <property name="input_file" value="/data/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />
             </properties>
         </batchlet>
     </step>

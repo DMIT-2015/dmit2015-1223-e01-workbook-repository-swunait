@@ -1,9 +1,6 @@
 package dmit2015.batch;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.Properties;
 
@@ -32,7 +29,8 @@ public class EnforcementZoneCentreItemReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         Properties jobParameters = _jobContext.getProperties();
         String inputFile = jobParameters.getProperty("input_file");
-        _reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile()));
+//        _reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile()));
+        _reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(inputFile)));
         // Skip the first line as it contains field name headers
         _reader.readLine();
     }
