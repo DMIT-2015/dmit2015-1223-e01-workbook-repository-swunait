@@ -11,17 +11,11 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.WKTReader;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.logging.Logger;
 
 
 /**
@@ -30,7 +24,7 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class EnforcementZoneCentreBatchlet extends AbstractBatchlet {
+public class EnforcementZoneCentreImportCsvDataToDatabaseBatchlet extends AbstractBatchlet {
 
     @PersistenceContext//(unitName = "mssql-jpa-pu")
     private EntityManager _entityManager;

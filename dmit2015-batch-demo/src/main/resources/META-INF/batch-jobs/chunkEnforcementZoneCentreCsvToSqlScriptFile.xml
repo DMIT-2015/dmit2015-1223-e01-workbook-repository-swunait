@@ -28,9 +28,9 @@
     -->
         </listeners>
         <chunk item-count="50">
-            <reader ref="enforcementZoneCentreItemReader" />
-            <processor ref="enforcementZoneCentreItemProcessor" />
-            <writer ref="enforcementZoneCentreItemWriter" />
+            <reader ref="enforcementZoneCentreItemCsvFileReader" />
+            <processor ref="enforcementZoneCentreStringToSqlStatementItemProcessor" />
+            <writer ref="enforcementZoneCentreWriteToSqlScriptFileItemWriter" />
         </chunk>
     </step>
 </job>

@@ -18,7 +18,7 @@
                     <listener ref="itemStepListener" />
                 </listeners>
         -->
-        <batchlet ref="enforcementZoneCentreBatchlet">
+        <batchlet ref="enforcementZoneCentreImportCsvDataToDatabaseBatchlet">
             <properties>
 <!--                <property name="input_file" value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />-->
                 <property name="input_file" value="/data/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv" />

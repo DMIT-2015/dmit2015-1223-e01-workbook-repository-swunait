@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 @Named
 @Dependent
-public class EnforcementZoneCentreItemProcessor implements ItemProcessor {
+public class EnforcementZoneCentreStringToSqlStatementItemProcessor implements ItemProcessor {
 
     @Inject
     private JobContext _jobContext;

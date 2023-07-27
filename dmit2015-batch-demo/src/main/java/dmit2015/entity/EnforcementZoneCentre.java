@@ -1,21 +1,17 @@
 package dmit2015.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
-import java.time.LocalDateTime;
-
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.locationtech.jts.geom.Point;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * https://data.edmonton.ca/Transportation/Scheduled-Photo-Enforcement-Zone-Centre-Points/akzz-54k3
@@ -125,5 +121,25 @@ public class EnforcementZoneCentre implements Serializable {
 	private void beforeUpdate() {
 		updateTime = LocalDateTime.now();
 	}
+
+	public static Optional<EnforcementZoneCentre> parseCsv(String line) {
+		final String delimiter = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+		String[] values = line.split(delimiter);
+
+		EnforcementZoneCentre model = new EnforcementZoneCentre();
+		try {
+			model.setSiteId(Short.parseShort(values[0]));
+			model.setLocationDescription(values[1]);
+			model.setSpeedLimit(Short.parseShort(values[2]));
+			model.setReasonCodes(values[3].replaceAll("[\"()]", ""));
+			model.setLatitude(Double.valueOf(values[4]));
+			model.setLongitude(Double.valueOf(values[5]));
+
+			return Optional.of(model);
+		} catch (Exception ex)  {
+			return Optional.empty();
+		}
+	}
+
 
 }

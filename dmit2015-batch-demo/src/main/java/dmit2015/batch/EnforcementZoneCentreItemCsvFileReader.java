@@ -1,21 +1,24 @@
 package dmit2015.batch;
 
-import java.io.*;
-import java.nio.file.Paths;
-import java.util.Properties;
-
 import jakarta.batch.api.chunk.AbstractItemReader;
 import jakarta.batch.runtime.context.JobContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Paths;
+import java.util.Properties;
+
 /**
  * The sequence for a batch chunk step are: ItemReader --> ItemProcessor --> ItemWriter
  */
 @Named
 @Dependent
-public class EnforcementZoneCentreItemReader extends AbstractItemReader {
+public class EnforcementZoneCentreItemCsvFileReader extends AbstractItemReader {
 
     @Inject
     private JobContext _jobContext;
@@ -29,8 +32,8 @@ public class EnforcementZoneCentreItemReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         Properties jobParameters = _jobContext.getProperties();
         String inputFile = jobParameters.getProperty("input_file");
-//        _reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile()));
-        _reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(inputFile)));
+        _reader = new BufferedReader(new FileReader(Paths.get(inputFile).toFile()));
+//        _reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(inputFile)));
         // Skip the first line as it contains field name headers
         _reader.readLine();
     }

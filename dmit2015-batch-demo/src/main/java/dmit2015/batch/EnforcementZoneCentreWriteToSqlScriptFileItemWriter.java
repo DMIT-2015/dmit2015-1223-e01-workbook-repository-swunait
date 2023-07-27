@@ -1,30 +1,26 @@
 package dmit2015.batch;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import jakarta.batch.api.BatchProperty;
 import jakarta.batch.api.chunk.AbstractItemWriter;
 import jakarta.batch.runtime.context.JobContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.BufferedWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
+import java.util.Properties;
+
 /**
  * An ItemWriter is executed after an ItemProcessor has executed.
  */
 @Named
 @Dependent
-public class EnforcementZoneCentreItemWriter extends AbstractItemWriter {
+public class EnforcementZoneCentreWriteToSqlScriptFileItemWriter extends AbstractItemWriter {
 
     @Inject
     private JobContext _jobContext;
