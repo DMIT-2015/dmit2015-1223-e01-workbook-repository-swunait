@@ -1,0 +1,30 @@
+###
+GET http://localhost:8080/api
+
+###
+GET http://localhost:8080/api/employees
+
+###
+GET http://localhost:8080/api/employees/1
+
+###
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "firstName" : "Bilbo",
+  "lastName" : "Baggins",
+  "description" : "burglar"
+}
+
+###
+GET localhost:8080/api/employees?size=2
+
+###
+# curl http://localhost:8080/api/profile/employees -H "Accept:application/schema+json"
+GET http://localhost:8080/api/profile/employees
+Accept: application/schema+json
+
+###
+
+
